@@ -112,6 +112,78 @@ public class imageEditor {
         return VinvertImage;
     }
 
+    // brightness
+    public static BufferedImage Ibrightness(BufferedImage inImage, int a) {
+        int height = inImage.getHeight();
+        int width = inImage.getWidth();
+        BufferedImage output = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                Color pixel = new Color(inImage.getRGB(j, i));
+                int red = pixel.getRed();
+                int green = pixel.getGreen();
+                int blue = pixel.getBlue();
+                red += (a * red) / 100;
+                green += (a * green) / 100;
+                blue += (a * blue) / 100;
+                if (red > 255)
+                    red = 255;
+                if (green > 255)
+                    green = 255;
+                if (blue > 255)
+                    blue = 255;
+                if (red < 0)
+                    red = 0;
+                if (green < 0)
+                    green = 0;
+                if (blue < 0)
+                    blue = 0;
+                Color newpixel = new Color(red, green, blue);
+                inImage.setRGB(j, i, newpixel.getRGB());
+
+            }
+        }
+        return inImage;
+    }
+
+    // image blurring
+    public static BufferedImage blur(BufferedImage input, int pixels) {
+        int height = input.getHeight();
+        int width = input.getWidth();
+        BufferedImage outputImage = new BufferedImage(width, height, BufferedImage.TYPE_3BYTE_BGR);
+
+        for (int i = 0; i < height / pixels; i++) {
+            for (int j = 0; j < width / pixels; j++) {
+
+                int red = 0;
+                int green = 0;
+                int blue = 0;
+
+                for (int k = i * pixels; k < i * pixels + pixels; k++) {
+                    for (int l = j * pixels; l < j * pixels + pixels; l++) {
+                        Color pixel = new Color(input.getRGB(l, k));
+                        red += pixel.getRed();
+                        blue += pixel.getBlue();
+                        green += pixel.getGreen();
+                    }
+                }
+
+                int finalRed = red / (pixels * pixels);
+                int finalGreen = green / (pixels * pixels);
+                int finalBlue = blue / (pixels * pixels);
+
+                for (int k = i * pixels; k < i * pixels + pixels; k++) {
+                    for (int l = j * pixels; l < j * pixels + pixels; l++) {
+                        Color newPixel = new Color(finalRed, finalGreen, finalBlue);
+                        outputImage.setRGB(l, k, newPixel.getRGB());
+                    }
+                }
+            }
+        }
+
+        return outputImage;
+    }
+
     public static void main(String[] args) throws IOException {
 
     }
