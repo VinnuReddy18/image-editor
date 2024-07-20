@@ -185,6 +185,60 @@ public class imageEditor {
     }
 
     public static void main(String[] args) throws IOException {
+        Scanner sc = new Scanner(System.in);
+        System.out.print("Enter the correct name of the file: ");
+        String S = sc.next();
 
+        File inputFile = new File(S);
+        BufferedImage inputImage = ImageIO.read(inputFile);
+
+        System.out.println("Enter 1 for flipping the image VERTICALLY");
+        System.out.println("Enter 2 for flipping the image HORIZONTALLY");
+        System.out.println("Enter 3 for rotating the image by 90 Deg to LEFT");
+        System.out.println("Enter 4 for rotating the image by 90 Deg to RIGHT");
+        System.out.println("Enter 5 for PIXEL VALUES of image");
+        System.out.println("Enter 6 for increasing the BRIGHTNESS of the Image");
+        System.out.println("Enter 7 for converting the Image into GrayScale(or)Black & White");
+        System.out.println("Enter 8 for blurring the image");
+
+        int operation = sc.nextInt();
+        if (operation == 1) {
+            BufferedImage result = verticallyinvert(inputImage);
+            File output = new File("output.jpg");
+            ImageIO.write(result, "jpg", output);
+        } else if (operation == 2) {
+            BufferedImage result = horizontallyinvert(inputImage);
+            File output = new File("output.jpg");
+            ImageIO.write(result, "jpg", output);
+
+        } else if (operation == 3) {
+            BufferedImage result = Lefttransposeimage(inputImage);
+            File output = new File("output.jpg");
+            ImageIO.write(result, "jpg", output);
+        } else if (operation == 4) {
+            BufferedImage result = Righttransposeimage(inputImage);
+            File output = new File("output.jpg");
+            ImageIO.write(result, "jpg", output);
+        } else if (operation == 5) {
+            printpixelvalues(inputImage);
+        } else if (operation == 6) {
+            System.out.println("Could you please mention the percentage of Brightness by which you need to increase?");
+            int a = sc.nextInt();
+            BufferedImage result = Ibrightness(inputImage, a);
+            File output = new File("output.jpg");
+            ImageIO.write(result, "jpg", output);
+
+        } else if (operation == 7) {
+            BufferedImage result = convertToGrayScale(inputImage);
+            File output = new File("output.jpg");
+            ImageIO.write(result, "jpg", output);
+        } else if (operation == 8) {
+            System.out.println("Type the Number of pixels that you want to Blur");
+            int pixels = sc.nextInt();
+            BufferedImage BlurredImage = blur(inputImage, pixels);
+            File output = new File("output.jpg");
+            ImageIO.write(BlurredImage, "jpg", output);
+
+        }
     }
 }
